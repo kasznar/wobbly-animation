@@ -1,0 +1,24 @@
+{
+  "name": "wobbly",
+  "version": "1.0.0",
+  "description": "wobbly window animation",
+  "main": "sketch.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kasznar/wobbly.git"
+  },
+  "keywords": [
+    "best",
+    "program",
+    "eva"
+  ],
+  "author": "Dávid Kasznár",
+  "license": "Beerware",
+  "bugs": {
+    "url": "https://github.com/kasznar/wobbly/issues"
+  },
+  "homepage": "https://github.com/kasznar/wobbly#readme"
+}
