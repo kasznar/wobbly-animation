@@ -6,24 +6,50 @@ function Spring(pointA, pointB, length, stiffness, offsetX, offsetY) {
     this.offsetX = offsetX;
     this.offsetY = offsetY;
 
-    this.apply = function () {
-        if (this.pointB.isAnchor) {
-            this.pointB.vx = 0;
-            this.pointB.vy = 0;
-            this.pointB.x = mouseX - width / 2;
-            this.pointB.y = mouseY - height / 2;
-        } else {
-            let forceX = (this.pointA.x - this.pointB.x - this.offsetX) * this.stiffness;
-            let ax = forceX / mass;
-            this.pointB.vx = damping * (this.pointB.vx + ax);
-            this.pointB.x += this.pointB.vx;
+    this.pointA.addSpring(this);
+    this.pointB.addSpring(this);
 
-            let forceY = (this.pointA.y - this.pointB.y - this.offsetY) * this.stiffness;
-            let ay = forceY / mass;
-            this.pointB.vy = damping * (this.pointB.vy + ay);
-            this.pointB.y += this.pointB.vy;
+    this.pop = function () {
+        pointA.springs = pointA.springs.filter(value => value !== this)
+        pointB.springs = pointB.springs.filter(value => value !== this)
+    }
+
+    this.forceXOn = function (point) {
+        if (point === pointA) {
+
+            return this.forceAX();
         }
-    };
+        if (point === pointB) {
+
+            return this.forceBX();
+        }
+        return 0;
+    }
+
+    this.forceYOn = function (point) {
+        if (point === pointA) {
+
+            return this.forceAY();
+        }
+        if (point === pointB) {
+
+            return this.forceBY();
+        }
+        return 0;
+    }
+
+    this.forceBX = function () {
+        return (this.pointA.x - this.pointB.x - this.offsetX) * this.stiffness;
+    }
+    this.forceBY = function () {
+        return (this.pointA.y - this.pointB.y - this.offsetY) * this.stiffness;
+    }
+    this.forceAX = function () {
+        return -this.forceBX();
+    }
+    this.forceAY = function () {
+        return -this.forceBY();
+    }
 
     this.display = function () {
         push();
