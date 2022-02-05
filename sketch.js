@@ -1,11 +1,11 @@
-let mass = 2.0;
-let length = 40;
+let mass = 2;
+let length = 20;
 let radius = 5;
-let stiffness = 0.7;
+let stiffness = 0.3;
 let damping = 0.8;
 
-let pointsX = 10;
-let pointsY = 10;
+let pointsX = 20;
+let pointsY = 20;
 
 let springs = [];
 let points = [];
@@ -32,7 +32,6 @@ function setup() {
         let pointB = pointAt(x - 1, y);
 
         springs.push(new Spring(pointA, pointB, length, stiffness, length, 0));
-        springs.push(new Spring(pointB, pointA, length, stiffness, -length, 0));
       }
 
       if (0 < y) {
@@ -40,7 +39,6 @@ function setup() {
         let pointB = pointAt(x, y - 1);
 
         springs.push(new Spring(pointA, pointB, length, stiffness, 0, length));
-        springs.push(new Spring(pointB, pointA, length, stiffness, 0, -length));
       }
     }
   }
@@ -49,14 +47,17 @@ function setup() {
 function draw() {
   background(0);
 
+  points.forEach(point => {
+    point.calculateNextPosition();
+  });
 
-  springs.forEach(spring => {
-    spring.apply();
+  points.forEach(point => {
+    point.update();
   });
 
   drawShape();
 
-  points.forEach((point,i) => {
+  points.forEach((point, i) => {
     point.display(i);
   });
 }
@@ -82,7 +83,7 @@ function mousePressed() {
     }
   });
 
-  if (closestIndex !== undefined && isInsidePicture(mX,mY)) {
+  if (closestIndex !== undefined && isInsidePicture(mX, mY)) {
     points[closestIndex].isAnchor = true;
   }
 }
